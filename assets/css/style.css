@@ -10,11 +10,49 @@ body {
     margin: 0;
 }
 
-.page-title {
-    font-size: 6em;
+#game-container {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 5px;
+    margin: 50px;
+    justify-content: center;
+}
+
+.game-title {
+    font-size: 3em;
     text-align: center;
 }
 
+#game-info-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+}
+
 .game-info {
+    font-size: 2em;
+}
+
+.card {
+    position: relative;
+    width: 125px;
+    height: 125px;
+    border-radius: 5px;
+}
+
+.card-face {
+    position: absolute;
+    width: 95%;
+    height: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 5px 5px 0px 0px rgba(218,218,218,1);
+}
+
+.card-front {
+    background-color: #ffa600;
     font-size: 4em;
+    color: #ec8200;
 }
