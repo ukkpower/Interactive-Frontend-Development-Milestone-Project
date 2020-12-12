@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100vh;
+}
+
+body {
+    margin: 0;
+}
+
+.page-title {
+    font-size: 6em;
+    text-align: center;
+}
+
+.game-info {
+    font-size: 4em;
+}
