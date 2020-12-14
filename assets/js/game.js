@@ -3,9 +3,11 @@ let gameData = [];
 let cardData = [];
 
 let lives = 0;
-let level = 5;
+let level = 2;
 
-cards.forEach(card => card.addEventListener('click', flipCard));
+let hasFlippedCard = false;
+let lockBoard = false;
+let firstCard, secondCard;
 
 function flipCard() {
 
@@ -24,12 +26,7 @@ function flipCard() {
 
     updateLives(gameData[level-1].lives);
 
-    $.each( cardData, function( key, value ) {
-        $('#game-container').append(`<div class="card">
-            <div class="card-front card-face"><img src="assets/svg/${value.image}"></div>
-            <div class="card-back card-face">?</div>
-        </div>`)
-    });
+    addCards(gameData[level-1].cards);
 
     $(document).on("click", ".card" , function() {
         $(this).addClass('flip');
@@ -52,4 +49,13 @@ function loadJSON(callback, file) {
 
 function updateLives (lives) {
     $('#lives').html(lives);
+}
+
+function addCards(value) {
+    for (let i = 0; i < value; ++i) {
+        $('#game-container').append(`<div class="card">
+            <div class="card-front card-face"><img src="assets/svg/${cardData[i].image}"></div>
+            <div class="card-back card-face">?</div>
+        </div>`)        
+    }
 }
