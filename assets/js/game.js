@@ -22,7 +22,7 @@ function flipCard() {
         cardData = JSON.parse(response);}, 
         'cardData.json');
 
-    console.log(gameData[level-1].lives);
+    updateLives(gameData[level-1].lives);
 
     $.each( cardData, function( key, value ) {
         $('#game-container').append(`<div class="card">
@@ -48,4 +48,8 @@ function loadJSON(callback, file) {
         }
     };
     xobj.send(null);  
+}
+
+function updateLives (lives) {
+    $('#lives').html(lives);
 }
