@@ -3,11 +3,13 @@ let gameData = [];
 let cardData = [];
 
 let lives = 0;
-let level = 2;
+let level = 1;
 
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
+
+let cardSelection = [];
 
 function flipCard() {
 
@@ -25,6 +27,8 @@ function flipCard() {
         'cardData.json');
 
     updateLives(gameData[level-1].lives);
+
+    randomCardSelection(gameData[level-1].cards);
 
     addCards(gameData[level-1].cards);
 
@@ -58,4 +62,37 @@ function addCards(value) {
             <div class="card-back card-face">?</div>
         </div>`)        
     }
+}
+
+function randomCardSelection (value) {
+    //6 card types
+    //Total 12 cards per screen
+    cardSelection = [];
+    let randNum;
+
+    for (i = 0; i < value; i++) {
+        randNum = randomNumber(1, 6, cardSelection);
+        cardSelection.push(randNum);
+        cardSelection.push(randNum);
+    }
+
+    console.log(shuffleArr (cardSelection));
+}
+
+function randomNumber(min, max, blacklist) {  
+    
+    let rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    let retv = 0;
+    while(blacklist.indexOf(retv = rand(min,max)) > -1) { }
+    return retv; 
+}
+
+
+function shuffleArr (array){
+    for (var i = array.length - 1; i > 0; i--) {
+        var rand = Math.floor(Math.random() * (i + 1));
+        [array[i], array[rand]] = [array[rand], array[i]]
+    }
+
+    return array
 }
