@@ -110,18 +110,32 @@ function flipCard () {
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
 
-  isMatch ? console.log('match') : noMatch();
+  isMatch ? cardsMatched() : noMatch();
 }
 
 function noMatch() {
   lockBoard = true;
 
+  lives = lives -1;
+  updateLives (lives);
+
+  if (lives === 0) {
+      console.log('game over');
+  }
+  
   setTimeout(() => {
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
 
     resetBoard();
   }, 1500);
+}
+
+function cardsMatched() {
+  firstCard.removeEventListener('click', flipCard);
+  secondCard.removeEventListener('click', flipCard);
+
+  resetBoard();
 }
 
 function resetBoard() {
