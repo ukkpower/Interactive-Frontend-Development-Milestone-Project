@@ -11,12 +11,6 @@ let firstCard, secondCard;
 
 let cardSelection = [];
 
-function flipCard() {
-
-  //this.classList.add('flip');
-
-}
-
 (function startGame () {
     loadJSON(function(response) {
         gameData = JSON.parse(response);}, 
@@ -55,7 +49,7 @@ function updateLives (lives) {
 
 function addCards(cards) {
     for (let i = 0; i < cards.length; ++i) {
-        $('#game-container').append(`<div class="card">
+        $('#game-container').append(`<div class="card" data-framework="${cardData[cards[i]].name}">
             <div class="card-front card-face"><img src="assets/svg/${cardData[cards[i]].image}"></div>
             <div class="card-back card-face">?</div>
         </div>`)        
@@ -96,5 +90,26 @@ function shuffleCards (cards){
 }
 
 function flipCard () {
+
+    if (lockBoard) return;
+    
     $(this).addClass('flip');
+
+    if (this === firstCard) return;
+    if (!hasFlippedCard) {
+        hasFlippedCard = true;
+        firstCard = this;
+
+        return;
+    } 
+    
+    secondCard = this;
+    checkForMatch();
 }
+
+function checkForMatch() {
+  let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+
+  isMatch ? console.log('match') : console.log('no match');
+}
+
