@@ -20,7 +20,8 @@ let cardSelection = [];
         cardData = JSON.parse(response);}, 
         'cardData.json');
 
-    updateLives(gameData[level-1].lives);
+    lives = gameData[level-1].lives;
+    updateLives(lives);
 
     let cards = randomCardSelection(gameData[level-1].cards);
 
