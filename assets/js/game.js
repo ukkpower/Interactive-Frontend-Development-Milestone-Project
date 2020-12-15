@@ -32,9 +32,7 @@ function flipCard() {
 
     addCards(cards);
 
-    $(document).on("click", ".card" , function() {
-        $(this).addClass('flip');
-    });
+    $(document).on("click", ".card" , flipCard);
 
 })();
 
@@ -95,4 +93,8 @@ function shuffleCards (cards){
     }
 
     return cards
+}
+
+function flipCard () {
+    $(this).addClass('flip');
 }
