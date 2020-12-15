@@ -28,9 +28,9 @@ function flipCard() {
 
     updateLives(gameData[level-1].lives);
 
-    randomCardSelection(gameData[level-1].cards);
+    let cards = randomCardSelection(gameData[level-1].cards);
 
-    addCards(gameData[level-1].cards);
+    addCards(cards);
 
     $(document).on("click", ".card" , function() {
         $(this).addClass('flip');
@@ -55,10 +55,10 @@ function updateLives (lives) {
     $('#lives').html(lives);
 }
 
-function addCards(value) {
-    for (let i = 0; i < value; ++i) {
+function addCards(cards) {
+    for (let i = 0; i < cards.length; ++i) {
         $('#game-container').append(`<div class="card">
-            <div class="card-front card-face"><img src="assets/svg/${cardData[i].image}"></div>
+            <div class="card-front card-face"><img src="assets/svg/${cardData[cards[i]].image}"></div>
             <div class="card-back card-face">?</div>
         </div>`)        
     }
@@ -71,12 +71,12 @@ function randomCardSelection (value) {
     let randNum;
 
     for (i = 0; i < value; i++) {
-        randNum = randomNumber(1, 6, cardSelection);
+        randNum = randomNumber(0, 5, cardSelection);
         cardSelection.push(randNum);
         cardSelection.push(randNum);
     }
 
-    console.log(shuffleCards (cardSelection));
+    return (shuffleCards (cardSelection));
 }
 
 function randomNumber(min, max, blacklist) {  
