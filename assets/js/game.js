@@ -76,7 +76,7 @@ function randomCardSelection (value) {
         cardSelection.push(randNum);
     }
 
-    console.log(shuffleArr (cardSelection));
+    console.log(shuffleCards (cardSelection));
 }
 
 function randomNumber(min, max, blacklist) {  
@@ -88,11 +88,11 @@ function randomNumber(min, max, blacklist) {
 }
 
 
-function shuffleArr (array){
-    for (var i = array.length - 1; i > 0; i--) {
+function shuffleCards (cards){
+    for (var i = cards.length - 1; i > 0; i--) {
         var rand = Math.floor(Math.random() * (i + 1));
-        [array[i], array[rand]] = [array[rand], array[i]]
+        [cards[i], cards[rand]] = [cards[rand], cards[i]]
     }
 
-    return array
+    return cards
 }
