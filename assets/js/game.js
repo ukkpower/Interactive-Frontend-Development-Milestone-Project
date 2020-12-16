@@ -11,6 +11,8 @@ let firstCard, secondCard;
 
 let cardSelection = [];
 
+
+
 (function startGame () {
     loadJSON(function(response) {
         gameData = JSON.parse(response);}, 
@@ -28,6 +30,10 @@ let cardSelection = [];
     addCards(cards);
 
     $(document).on("click", ".card:not(.flip)" , flipCard);
+
+    $( "#start-overlay" ).click(function() {
+        $(this).removeClass('visible');
+    });
 
 })();
 
