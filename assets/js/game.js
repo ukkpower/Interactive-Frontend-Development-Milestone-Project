@@ -27,7 +27,7 @@ let cardSelection = [];
 
     addCards(cards);
 
-    $(document).on("click", ".card" , flipCard);
+    $(document).on("click", ".card:not(.flip)" , flipCard);
 
 })();
 
@@ -58,8 +58,7 @@ function addCards(cards) {
 }
 
 function randomCardSelection (value) {
-    //6 card types
-    //Total 12 cards per screen
+
     cardSelection = [];
     let randNum;
 
@@ -91,6 +90,8 @@ function shuffleCards (cards){
 }
 
 function flipCard () {
+
+    console.log('click');
 
     if (lockBoard) return;
     
@@ -133,9 +134,6 @@ function noMatch() {
 }
 
 function cardsMatched() {
-  firstCard.removeEventListener('click', flipCard);
-  secondCard.removeEventListener('click', flipCard);
-
   resetBoard();
 }
 
