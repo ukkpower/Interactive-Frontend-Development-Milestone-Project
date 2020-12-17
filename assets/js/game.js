@@ -11,8 +11,6 @@ let firstCard, secondCard;
 
 let cardSelection = [];
 
-
-
 (function startGame () {
     loadJSON(function(response) {
         gameData = JSON.parse(response);}, 
@@ -36,6 +34,10 @@ let cardSelection = [];
     });
 
 })();
+
+function loadLevel () {
+
+}
 
 function loadJSON(callback, file) {   
 
@@ -128,7 +130,7 @@ function noMatch() {
   updateLives (lives);
 
   if (lives === 0) {
-      console.log('game over');
+      gameOver();
   }
   
   setTimeout(() => {
@@ -146,5 +148,11 @@ function cardsMatched() {
 function resetBoard() {
   [hasFlippedCard, lockBoard] = [false, false];
   [firstCard, secondCard] = [null, null];
+}
+
+function gameOver () {
+    $('#game-over-overlay').addClass('visible');
+
+    resetBoard();
 }
 
