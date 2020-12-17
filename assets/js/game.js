@@ -20,12 +20,7 @@ let cardSelection = [];
         cardData = JSON.parse(response);}, 
         'cardData.json');
 
-    lives = gameData[level-1].lives;
-    updateLives(lives);
-
-    let cards = randomCardSelection(gameData[level-1].cards);
-
-    addCards(cards);
+    loadLevel();
 
     $(document).on("click", ".card:not(.flip)" , flipCard);
 
@@ -33,10 +28,20 @@ let cardSelection = [];
         $(this).removeClass('visible');
     });
 
+    $( "#game-over-overlay" ).click(function() {
+        loadLevel ();
+        $(this).removeClass('visible');
+    });
+
 })();
 
 function loadLevel () {
+    lives = gameData[level-1].lives;
+    updateLives(lives);
 
+    let cards = randomCardSelection(gameData[level-1].cards);
+
+    addCards(cards);
 }
 
 function loadJSON(callback, file) {   
@@ -148,6 +153,7 @@ function cardsMatched() {
 function resetBoard() {
   [hasFlippedCard, lockBoard] = [false, false];
   [firstCard, secondCard] = [null, null];
+  level = 1;
 }
 
 function gameOver () {
