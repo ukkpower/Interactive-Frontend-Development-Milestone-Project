@@ -8,6 +8,7 @@ let level = 1;
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
+let trackMatches = 0;
 
 let cardSelection = [];
 
@@ -33,11 +34,19 @@ let cardSelection = [];
         $(this).removeClass('visible');
     });
 
+    $( "#victory-overlay" ).click(function() {
+        level++;
+        loadLevel ();
+        $(this).removeClass('visible');
+    });
+
 })();
 
 function loadLevel () {
     lives = gameData[level-1].lives;
     updateLives(lives);
+
+    trackMatches = gameData[level-1].cards;
 
     let cards = randomCardSelection(gameData[level-1].cards);
 
@@ -147,18 +156,23 @@ function noMatch() {
 }
 
 function cardsMatched() {
-  resetBoard();
+    trackMatches = trackMatches - 2;
+    if (trackMatches == 0) {
+        setTimeout(() => {
+            $('#victory-overlay').addClass('visible');
+        }, 1500);        
+    }
+    resetBoard();
 }
 
 function resetBoard() {
   [hasFlippedCard, lockBoard] = [false, false];
   [firstCard, secondCard] = [null, null];
-  level = 1;
 }
 
 function gameOver () {
     $('#game-over-overlay').addClass('visible');
-
+    level = 1;
     resetBoard();
 }
 
