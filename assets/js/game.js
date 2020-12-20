@@ -1,4 +1,3 @@
-const cards = document.querySelectorAll('.card');
 let gameData = [];
 let cardData = [];
 
@@ -49,7 +48,7 @@ function loadLevel () {
     trackMatches = gameData[level-1].cards;
 
     let cards = randomCardSelection(gameData[level-1].cards);
-
+    $(".card").remove();      
     addCards(cards);
 }
 
