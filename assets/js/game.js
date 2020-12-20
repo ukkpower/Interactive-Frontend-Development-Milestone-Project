@@ -44,6 +44,7 @@ let cardSelection = [];
 function loadLevel () {
     lives = gameData[level-1].lives;
     updateLives(lives);
+    updateLevel(level);
 
     trackMatches = gameData[level-1].cards;
 
@@ -67,6 +68,10 @@ function loadJSON(callback, file) {
 
 function updateLives (lives) {
     $('#lives').html(lives);
+}
+
+function updateLevel (level) {
+    $('#level').html(level);
 }
 
 function addCards(cards) {
@@ -155,7 +160,7 @@ function noMatch() {
 }
 
 function cardsMatched() {
-    trackMatches = trackMatches - 2;
+    trackMatches = trackMatches - 1;
     if (trackMatches == 0) {
         setTimeout(() => {
             $('#victory-overlay').addClass('visible');
