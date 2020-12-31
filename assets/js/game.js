@@ -1,7 +1,8 @@
 let gameData = [];
 let cardData = [];
 
-let lives = 0;
+let currentLives = 0;
+let levelLives = 0;
 let level = 1;
 
 let hasFlippedCard = false;
@@ -42,8 +43,9 @@ let cardSelection = [];
 })();
 
 function loadLevel () {
-    lives = gameData[level-1].lives;
-    updateLives(lives);
+    levelLives = gameData[level-1].lives;
+    currentLives = levelLives;
+    updateLives(currentLives, 100);
     updateLevel(level);
 
     trackMatches = gameData[level-1].cards;
@@ -66,9 +68,8 @@ function loadJSON(callback, file) {
     xobj.send(null);  
 }
 
-function updateLives (lives) {
-    $('#lives').html(lives);
-    fm.setPercentage(51, 4);
+function updateLives (lives, livesPercent) {
+    fm.setPercentage(livesPercent, lives);
 }
 
 function updateLevel (level) {
@@ -145,10 +146,12 @@ function checkForMatch() {
 function noMatch() {
   lockBoard = true;
 
-  lives = lives -1;
-  updateLives (lives);
+  currentLives = currentLives -1;
 
-  if (lives === 0) {
+  let calcLivesPercent = calcLivesPercentage (currentLives, levelLives)
+  updateLives (currentLives, calcLivesPercent);
+
+  if (currentLives === 0) {
       gameOver();
   }
   
@@ -181,3 +184,6 @@ function gameOver () {
     resetBoard();
 }
 
+function calcLivesPercentage (current, total) {
+    return ((current/total) * 100).toFixed(3);
+}
