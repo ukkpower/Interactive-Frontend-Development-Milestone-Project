@@ -185,5 +185,5 @@ function gameOver () {
 }
 
 function calcLivesPercentage (current, total) {
-    return ((current/total) * 100).toFixed(3);
+    return (Math.floor((current/total) * 100));
 }

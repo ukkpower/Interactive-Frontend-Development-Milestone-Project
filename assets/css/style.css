@@ -94,6 +94,7 @@ body {
     justify-content: center;
     align-items: center;
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     border-radius: 5px;
 }
 
@@ -115,4 +116,20 @@ body {
 
 .card-front img{
     height: 50%;
+}
+
+#level {
+    background-color: purple;
+    color: white;
+    border-width: 10px;
+    border-color: white;
+    border-style: solid;
+    box-sizing: border-box;
+    width: 130px;
+    height: 130px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
