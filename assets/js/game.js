@@ -68,6 +68,7 @@ function loadJSON(callback, file) {
 
 function updateLives (lives) {
     $('#lives').html(lives);
+    fm.setPercentage(51, 4);
 }
 
 function updateLevel (level) {

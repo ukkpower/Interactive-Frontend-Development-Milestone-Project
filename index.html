@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="assets/css/style.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="assets/js/js-fluid-meter.js"></script>
     <title>Code Institute Memory Game</title>
 </head>
 <body>
@@ -26,10 +27,42 @@
                 Level <span id="level">0</span>
             </div>
             <div class="game-info">
+                <div id="fluid-meter" class="mx-auto"></div>
                 Lives <span id="lives">4</span>
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="assets/js/game.js"></script>
+    
+      <script>
+    var fm = new FluidMeter();
+    fm.init({
+      targetContainer: document.getElementById("fluid-meter"),
+      fillPercentage: 25,
+      options: {
+        fontFamily: "Raleway",
+        drawPercentageSign: false,
+        drawBubbles: true,
+        size: 150,
+        borderWidth: 10,
+        backgroundColor: "#e2e2e2",
+        foregroundColor: "#fafafa",
+        foregroundFluidLayer: {
+          fillStyle: "purple",
+          angularSpeed: 100,
+          maxAmplitude: 12,
+          frequency: 30,
+          horizontalSpeed: -150
+        },
+        backgroundFluidLayer: {
+          fillStyle: "pink",
+          angularSpeed: 100,
+          maxAmplitude: 9,
+          frequency: 30,
+          horizontalSpeed: 150
+        }
+      }
+    });
+</script>
+<script type="text/javascript" src="assets/js/game.js"></script>
 </body>
 </html>
