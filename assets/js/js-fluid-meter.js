@@ -99,11 +99,11 @@ function FluidMeter() {
     canvas.width = options.size;
     canvas.height = options.size;
 
-  canvas.style.width = `${options.size/2}px`;
-  canvas.style.height = `${options.size/2}px`;
+  canvas.style.width = `${options.size/ratio}px`;
+  canvas.style.height = `${options.size/ratio}px`;
     canvas.imageSmoothingEnabled = true;
     context = canvas.getContext("2d");
-    context.scale(ratio/2, ratio/2);
+    //context.scale(ratio/ratio, ratio/ratio);
     targetContainer.appendChild(canvas);
 
     // shadow is not required  to be on the draw loop
