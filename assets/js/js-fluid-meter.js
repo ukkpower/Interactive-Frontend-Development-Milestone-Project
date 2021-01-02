@@ -17,7 +17,7 @@ function FluidMeter() {
     drawText: true,
     drawPercentageSign: true,
     drawBubbles: true,
-    fontSize: "70px",
+    fontSize: "120px",
     fontFamily: "Arial",
     fontFillStyle: "white",
     size: 300,
@@ -94,12 +94,16 @@ function FluidMeter() {
    */
   function setupCanvas() {
     var canvas = document.createElement('canvas');
-    var scale = window.devicePixelRatio;
+    const ratio = Math.ceil(window.devicePixelRatio);
+    options.size = options.size * ratio;
     canvas.width = options.size;
     canvas.height = options.size;
+
+  canvas.style.width = `${options.size/2}px`;
+  canvas.style.height = `${options.size/2}px`;
     canvas.imageSmoothingEnabled = true;
     context = canvas.getContext("2d");
-    context.scale(scale, scale);
+    context.scale(ratio/2, ratio/2);
     targetContainer.appendChild(canvas);
 
     // shadow is not required  to be on the draw loop
