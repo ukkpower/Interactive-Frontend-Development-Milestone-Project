@@ -94,11 +94,12 @@ function FluidMeter() {
    */
   function setupCanvas() {
     var canvas = document.createElement('canvas');
+    var scale = window.devicePixelRatio;
     canvas.width = options.size;
     canvas.height = options.size;
     canvas.imageSmoothingEnabled = true;
     context = canvas.getContext("2d");
-    context.scale = window.devicePixelRatio;
+    context.scale(scale, scale);
     targetContainer.appendChild(canvas);
 
     // shadow is not required  to be on the draw loop
