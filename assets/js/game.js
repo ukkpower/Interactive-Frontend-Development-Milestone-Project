@@ -17,17 +17,17 @@ class MemoryCards {
     }
 
     startGame () {
-        this.loadJSON(function(response) {
+        this.loadJSON((response) => {
             this.gameData = JSON.parse(response);}, 
             'gameData.json');
 
-        this.loadJSON(function(response) {
+        this.loadJSON((response) => {
             this.cardData = JSON.parse(response);}, 
             'cardData.json');
 
         this.loadLevel();
 
-        $(document).on("click", ".card:not(.flip)" , flipCard);
+        $(document).on("click", ".card:not(.flip)" , this.flipCard);
 
         $( "#start-overlay" ).click(function() {
             $(this).removeClass('visible');
@@ -46,16 +46,16 @@ class MemoryCards {
     }
 
     loadLevel () {
-        this.levelLives = this.gameData[level-1].lives;
+        this.levelLives = this.gameData[this.level-1].lives;
         this.currentLives = this.levelLives;
-        updateLives(this.currentLives, 100);
-        updateLevel(this.level);
+        this.updateLives(this.currentLives, 100);
+        this.updateLevel(this.level);
 
-        this.trackMatches = this.gameData[level-1].cards;
+        this.trackMatches = this.gameData[this.level-1].cards;
 
-        let cards = randomCardSelection(gameData[level-1].cards);
+        let cards = this.randomCardSelection(this.gameData[this.level-1].cards);
         $(".card").remove();      
-        addCards(cards);
+        this.addCards(cards);
     }
 
     loadJSON(callback, file) {   
@@ -81,8 +81,8 @@ class MemoryCards {
 
     addCards(cards) {
         for (let i = 0; i < cards.length; ++i) {
-            $('#game-container').append(`<div class="card" data-framework="${cardData[cards[i]].name}">
-                <div class="card-front card-face"><img src="assets/svg/${cardData[cards[i]].image}"></div>
+            $('#game-container').append(`<div class="card" data-framework="${this.cardData[cards[i]].name}">
+                <div class="card-front card-face"><img src="assets/svg/${this.cardData[cards[i]].image}"></div>
                 <div class="card-back card-face">?</div>
             </div>`)        
         }
@@ -93,13 +93,13 @@ class MemoryCards {
         this.cardSelection = [];
         let randNum;
 
-        for (i = 0; i < value; i++) {
-            randNum = randomNumber(0, 5, cardSelection);
+        for (var i = 0; i < value; i++) {
+            randNum = this.randomNumber(0, 5, this.cardSelection);
             this.cardSelection.push(randNum);
             this.cardSelection.push(randNum);
         }
 
-        return (shuffleCards (this.cardSelection));
+        return (this.shuffleCards (this.cardSelection));
     }
 
     randomNumber(min, max, blacklist) {  
