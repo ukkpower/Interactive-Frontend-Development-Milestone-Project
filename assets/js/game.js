@@ -1,189 +1,190 @@
-let gameData = [];
-let cardData = [];
+class MemoryCards {
+    
+    constructor() {
+        this.gameData = [];
+        this.cardData = [];
 
-let currentLives = 0;
-let levelLives = 0;
-let level = 1;
+        this.currentLives = 0;
+        this.levelLives = 0;
+        this.level = 1;
 
-let hasFlippedCard = false;
-let lockBoard = false;
-let firstCard, secondCard;
-let trackMatches = 0;
+        this.hasFlippedCard = false;
+        this.lockDeck = false;
+        this.firstCard, this.secondCard;
+        this.trackMatches = 0;
 
-let cardSelection = [];
+        this.cardSelection = [];
+    }
 
-(function startGame () {
-    loadJSON(function(response) {
-        gameData = JSON.parse(response);}, 
-        'gameData.json');
+    startGame () {
+        this.loadJSON(function(response) {
+            this.gameData = JSON.parse(response);}, 
+            'gameData.json');
 
-    loadJSON(function(response) {
-        cardData = JSON.parse(response);}, 
-        'cardData.json');
+        this.loadJSON(function(response) {
+            this.cardData = JSON.parse(response);}, 
+            'cardData.json');
 
-    loadLevel();
+        this.loadLevel();
 
-    $(document).on("click", ".card:not(.flip)" , flipCard);
+        $(document).on("click", ".card:not(.flip)" , flipCard);
 
-    $( "#start-overlay" ).click(function() {
-        $(this).removeClass('visible');
-    });
+        $( "#start-overlay" ).click(function() {
+            $(this).removeClass('visible');
+        });
 
-    $( "#game-over-overlay" ).click(function() {
-        loadLevel ();
-        $(this).removeClass('visible');
-    });
+        $( "#game-over-overlay" ).click(function() {
+            loadLevel ();
+            $(this).removeClass('visible');
+        });
 
-    $( "#victory-overlay" ).click(function() {
-        level++;
-        loadLevel ();
-        $(this).removeClass('visible');
-    });
+        $( "#victory-overlay" ).click(function() {
+            this.level++;
+            loadLevel ();
+            $(this).removeClass('visible');
+        });
+    }
 
-})();
+    loadLevel () {
+        this.levelLives = this.gameData[level-1].lives;
+        this.currentLives = this.levelLives;
+        updateLives(this.currentLives, 100);
+        updateLevel(this.level);
 
-function loadLevel () {
-    levelLives = gameData[level-1].lives;
-    currentLives = levelLives;
-    updateLives(currentLives, 100);
-    updateLevel(level);
+        this.trackMatches = this.gameData[level-1].cards;
 
-    trackMatches = gameData[level-1].cards;
+        let cards = randomCardSelection(gameData[level-1].cards);
+        $(".card").remove();      
+        addCards(cards);
+    }
 
-    let cards = randomCardSelection(gameData[level-1].cards);
-    $(".card").remove();      
-    addCards(cards);
-}
+    loadJSON(callback, file) {   
 
-function loadJSON(callback, file) {   
+        var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+        xobj.open('GET', `assets/data/${file}`, false);
+        xobj.onreadystatechange = function () {
+            if (xobj.readyState == 4 && xobj.status == "200") {
+                callback(xobj.responseText);
+            }
+        };
+        xobj.send(null);  
+    }
 
-    var xobj = new XMLHttpRequest();
-    xobj.overrideMimeType("application/json");
-    xobj.open('GET', `assets/data/${file}`, false);
-    xobj.onreadystatechange = function () {
-        if (xobj.readyState == 4 && xobj.status == "200") {
-            callback(xobj.responseText);
+    updateLives (lives, livesPercent) {
+        fm.setPercentage(livesPercent, lives);
+    }
+
+    updateLevel (level) {
+        $('#level').html(level);
+    }
+
+    addCards(cards) {
+        for (let i = 0; i < cards.length; ++i) {
+            $('#game-container').append(`<div class="card" data-framework="${cardData[cards[i]].name}">
+                <div class="card-front card-face"><img src="assets/svg/${cardData[cards[i]].image}"></div>
+                <div class="card-back card-face">?</div>
+            </div>`)        
         }
-    };
-    xobj.send(null);  
-}
-
-function updateLives (lives, livesPercent) {
-    fm.setPercentage(livesPercent, lives);
-}
-
-function updateLevel (level) {
-    $('#level').html(level);
-}
-
-function addCards(cards) {
-    for (let i = 0; i < cards.length; ++i) {
-        $('#game-container').append(`<div class="card" data-framework="${cardData[cards[i]].name}">
-            <div class="card-front card-face"><img src="assets/svg/${cardData[cards[i]].image}"></div>
-            <div class="card-back card-face">?</div>
-        </div>`)        
-    }
-}
-
-function randomCardSelection (value) {
-
-    cardSelection = [];
-    let randNum;
-
-    for (i = 0; i < value; i++) {
-        randNum = randomNumber(0, 5, cardSelection);
-        cardSelection.push(randNum);
-        cardSelection.push(randNum);
     }
 
-    return (shuffleCards (cardSelection));
-}
+    randomCardSelection (value) {
 
-function randomNumber(min, max, blacklist) {  
-    
-    let rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-    let retv = 0;
-    while(blacklist.indexOf(retv = rand(min,max)) > -1) { }
-    return retv; 
-}
+        this.cardSelection = [];
+        let randNum;
 
+        for (i = 0; i < value; i++) {
+            randNum = randomNumber(0, 5, cardSelection);
+            this.cardSelection.push(randNum);
+            this.cardSelection.push(randNum);
+        }
 
-function shuffleCards (cards){
-    for (var i = cards.length - 1; i > 0; i--) {
-        var rand = Math.floor(Math.random() * (i + 1));
-        [cards[i], cards[rand]] = [cards[rand], cards[i]]
+        return (shuffleCards (this.cardSelection));
     }
 
-    return cards
-}
-
-function flipCard () {
-
-    console.log('click');
-
-    if (lockBoard) return;
+    randomNumber(min, max, blacklist) {  
     
-    $(this).addClass('flip');
+        let rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+        let retv = 0;
+        while(blacklist.indexOf(retv = rand(min,max)) > -1) { }
+        return retv; 
+    }
 
-    if (this === firstCard) return;
-    if (!hasFlippedCard) {
-        hasFlippedCard = true;
-        firstCard = this;
+    shuffleCards (cards){
+        for (var i = cards.length - 1; i > 0; i--) {
+            var rand = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[rand]] = [cards[rand], cards[i]]
+        }
 
-        return;
-    } 
-    
-    secondCard = this;
-    checkForMatch();
-}
+        return cards
+    }
 
-function checkForMatch() {
-  let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+    flipCard () {
 
-  isMatch ? cardsMatched() : noMatch();
-}
+        if (this.lockDeck) return;
+        
+        $(this).addClass('flip');
 
-function noMatch() {
-  lockBoard = true;
+        if (this === this.firstCard) return;
+        if (!this.hasFlippedCard) {
+            this.hasFlippedCard = true;
+            this.firstCard = this;
 
-  currentLives = currentLives -1;
+            return;
+        } 
+        
+        this.secondCard = this;
+        checkForMatch();
+    }
 
-  let calcLivesPercent = calcLivesPercentage (currentLives, levelLives)
-  updateLives (currentLives, calcLivesPercent);
+    checkForMatch() {
+        let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
 
-  if (currentLives === 0) {
-      gameOver();
-  }
-  
-  setTimeout(() => {
-    firstCard.classList.remove('flip');
-    secondCard.classList.remove('flip');
+        isMatch ? cardsMatched() : noMatch();
+    }
 
-    resetBoard();
-  }, 1500);
-}
+    noMatch() {
+        this.lockDeck = true;
 
-function cardsMatched() {
-    trackMatches = trackMatches - 1;
-    if (trackMatches == 0) {
+        this.currentLives = this.currentLives -1;
+
+        let calcLivesPercent = calcLivesPercentage (currentLives, levelLives)
+        updateLives (this.currentLives, calcLivesPercent);
+
+        if (this.currentLives === 0) {
+            gameOver();
+        }
+        
         setTimeout(() => {
-            $('#victory-overlay').addClass('visible');
-        }, 1500);        
+            this.firstCard.classList.remove('flip');
+            this.secondCard.classList.remove('flip');
+
+            resetBoard();
+        }, 1500);
     }
-    resetBoard();
-}
 
-function resetBoard() {
-  [hasFlippedCard, lockBoard] = [false, false];
-  [firstCard, secondCard] = [null, null];
-}
+    cardsMatched() {
+        this.trackMatches = this.trackMatches - 1;
+        if (this.trackMatches == 0) {
+            setTimeout(() => {
+                $('#victory-overlay').addClass('visible');
+            }, 1500);        
+        }
+        resetDeck();
+    }
 
-function gameOver () {
-    $('#game-over-overlay').addClass('visible');
-    level = 1;
-    resetBoard();
-}
+    resetDeck() {
+        [this.hasFlippedCard, this.lockDeck] = [false, false];
+        [this.firstCard, this.secondCard] = [null, null];
+    }
 
-function calcLivesPercentage (current, total) {
-    return (Math.floor((current/total) * 100));
-}
+    gameOver () {
+        $('#game-over-overlay').addClass('visible');
+        this.level = 1;
+        resetDeck();
+    }
+
+    calcLivesPercentage (current, total) {
+        return (Math.floor((current/total) * 100));
+    }
+};
