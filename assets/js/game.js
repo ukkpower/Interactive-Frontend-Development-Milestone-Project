@@ -2,7 +2,6 @@ class MemoryCards {
     
     constructor() {
 
-        var self = this;
         this.gameData = [];
         this.cardData = [];
 
@@ -11,7 +10,7 @@ class MemoryCards {
         this.level = 1;
 
         this.hasFlippedCard = false;
-        self.lockDeck = false;
+        this.lockDeck = false;
         this.firstCard, this.secondCard;
         this.trackMatches = 0;
 
@@ -35,19 +34,19 @@ class MemoryCards {
             $(this).removeClass('visible');
         });
 
-        $( "#game-over-overlay" ).click(function() {
-            this.loadLevel ();
-            $(this).removeClass('visible');
+        $( "#game-over-overlay" ).click((event) => {
+            this.loadLevel();
+            $(event.currentTarget).removeClass('visible');
         });
 
-        $( "#victory-overlay" ).click(function() {
+        $( "#victory-overlay" ).click((event) => {
             this.level++;
-            this.loadLevel ();
-            $(this).removeClass('visible');
+            this.loadLevel();
+            $(event.currentTarget).removeClass('visible');
         });
     }
 
-    loadLevel () {
+    loadLevel() {
         this.levelLives = this.gameData[this.level-1].lives;
         this.currentLives = this.levelLives;
         this.updateLives(this.currentLives, 100);
@@ -124,8 +123,6 @@ class MemoryCards {
     flipCard (event) {
 
         if (this.lockDeck) return;
-
-        console.log(event);
         
         $(event.currentTarget).addClass('flip');
 
@@ -142,7 +139,7 @@ class MemoryCards {
     }
 
     checkForMatch() {
-        console.log("called");
+        
         let isMatch = this.firstCard.dataset.framework === this.secondCard.dataset.framework;
 
         isMatch ? this.cardsMatched() : this.noMatch();
@@ -175,7 +172,7 @@ class MemoryCards {
                 $('#victory-overlay').addClass('visible');
             }, 1500);        
         }
-        resetDeck();
+        this.resetDeck();
     }
 
     resetDeck() {
