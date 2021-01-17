@@ -1,6 +1,8 @@
 class MemoryCards {
     
     constructor() {
+
+        var self = this;
         this.gameData = [];
         this.cardData = [];
 
@@ -9,7 +11,7 @@ class MemoryCards {
         this.level = 1;
 
         this.hasFlippedCard = false;
-        this.lockDeck = false;
+        self.lockDeck = false;
         this.firstCard, this.secondCard;
         this.trackMatches = 0;
 
@@ -27,20 +29,20 @@ class MemoryCards {
 
         this.loadLevel();
 
-        $(document).on("click", ".card:not(.flip)" , this.flipCard);
+        $(document).on("click", ".card:not(.flip)" , (event) => this.flipCard(event));
 
         $( "#start-overlay" ).click(function() {
             $(this).removeClass('visible');
         });
 
         $( "#game-over-overlay" ).click(function() {
-            loadLevel ();
+            this.loadLevel ();
             $(this).removeClass('visible');
         });
 
         $( "#victory-overlay" ).click(function() {
             this.level++;
-            loadLevel ();
+            this.loadLevel ();
             $(this).removeClass('visible');
         });
     }
@@ -98,7 +100,7 @@ class MemoryCards {
             this.cardSelection.push(randNum);
             this.cardSelection.push(randNum);
         }
-
+        
         return (this.shuffleCards (this.cardSelection));
     }
 
@@ -107,7 +109,7 @@ class MemoryCards {
         let rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
         let retv = 0;
         while(blacklist.indexOf(retv = rand(min,max)) > -1) { }
-        return retv; 
+        return retv;
     }
 
     shuffleCards (cards){
@@ -119,28 +121,31 @@ class MemoryCards {
         return cards
     }
 
-    flipCard () {
+    flipCard (event) {
 
         if (this.lockDeck) return;
+
+        console.log(event);
         
-        $(this).addClass('flip');
+        $(event.currentTarget).addClass('flip');
 
         if (this === this.firstCard) return;
         if (!this.hasFlippedCard) {
             this.hasFlippedCard = true;
-            this.firstCard = this;
+            this.firstCard = event.currentTarget;
 
             return;
         } 
         
-        this.secondCard = this;
-        checkForMatch();
+        this.secondCard = event.currentTarget;
+        this.checkForMatch();
     }
 
     checkForMatch() {
-        let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+        console.log("called");
+        let isMatch = this.firstCard.dataset.framework === this.secondCard.dataset.framework;
 
-        isMatch ? cardsMatched() : noMatch();
+        isMatch ? this.cardsMatched() : this.noMatch();
     }
 
     noMatch() {
@@ -148,18 +153,18 @@ class MemoryCards {
 
         this.currentLives = this.currentLives -1;
 
-        let calcLivesPercent = calcLivesPercentage (currentLives, levelLives)
-        updateLives (this.currentLives, calcLivesPercent);
+        let calcLivesPercent = this.calcLivesPercentage (this.currentLives, this.levelLives)
+        this.updateLives (this.currentLives, calcLivesPercent);
 
         if (this.currentLives === 0) {
-            gameOver();
+            this.gameOver();
         }
         
         setTimeout(() => {
             this.firstCard.classList.remove('flip');
             this.secondCard.classList.remove('flip');
 
-            resetBoard();
+            this.resetDeck();
         }, 1500);
     }
 
