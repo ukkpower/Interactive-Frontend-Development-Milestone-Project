@@ -15,6 +15,16 @@ class MemoryCards {
         this.trackMatches = 0;
 
         this.cardSelection = [];
+
+        this.bgMusic = new Audio('assets/audio/bgMusic.mp3');
+        this.bgMusic.volume = 0.6;
+        this.bgMusic.loop = true;
+
+        this.flipCardSound = new Audio('assets/audio/flip.wav');
+        this.matchCardsSound = new Audio('assets/audio/match.wav');
+        this.gameVictorySound = new Audio('assets/audio/victory.wav');
+        this.gameOverSound = new Audio('assets/audio/gameOver.wav');
+
     }
 
     startGame () {
@@ -44,6 +54,7 @@ class MemoryCards {
             this.loadLevel();
             $(event.currentTarget).removeClass('visible');
         });
+
     }
 
     loadLevel() {
@@ -57,6 +68,8 @@ class MemoryCards {
         let cards = this.randomCardSelection(this.gameData[this.level-1].cards);
         $(".card").remove();      
         this.addCards(cards);
+
+        this.bgMusic.play();
     }
 
     loadJSON(callback, file) {   
@@ -125,6 +138,7 @@ class MemoryCards {
         if (this.lockDeck) return;
         
         $(event.currentTarget).addClass('flip');
+        this.flipCardSound.play();
 
         if (this === this.firstCard) return;
         if (!this.hasFlippedCard) {
@@ -149,7 +163,7 @@ class MemoryCards {
         this.lockDeck = true;
 
         this.currentLives = this.currentLives -1;
-
+        this.noMatchCardsSound.play();
         let calcLivesPercent = this.calcLivesPercentage (this.currentLives, this.levelLives)
         this.updateLives (this.currentLives, calcLivesPercent);
 
@@ -167,9 +181,12 @@ class MemoryCards {
 
     cardsMatched() {
         this.trackMatches = this.trackMatches - 1;
+        this.matchCardsSound.play();
         if (this.trackMatches == 0) {
             setTimeout(() => {
                 $('#victory-overlay').addClass('visible');
+                this.stopBgMusic();
+                this.victorySound.play();
             }, 1500);        
         }
         this.resetDeck();
@@ -182,11 +199,18 @@ class MemoryCards {
 
     gameOver () {
         $('#game-over-overlay').addClass('visible');
+        this.stopBgMusic();
+        this.gameOverSound.play();
         this.level = 1;
         resetDeck();
     }
 
     calcLivesPercentage (current, total) {
         return (Math.floor((current/total) * 100));
+    }
+
+    stopBgMusic() {
+        this.bgMusic.pause();
+        this.bgMusic.currentTime = 0;
     }
 };
