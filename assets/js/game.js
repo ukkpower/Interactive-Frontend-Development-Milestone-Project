@@ -20,8 +20,9 @@ class MemoryCards {
         this.bgMusic.volume = 0.6;
         this.bgMusic.loop = true;
 
-        this.flipCardSound = new Audio('assets/audio/flip.wav');
-        this.matchCardsSound = new Audio('assets/audio/match.wav');
+        this.flipCardSound = new Audio('assets/audio/card-flip.mp3');
+        this.matchCardsSound = new Audio('assets/audio/card-match.wav');
+        this.noMatchCardsSound = new Audio('assets/audio/no-card-match.wav');
         this.gameVictorySound = new Audio('assets/audio/victory.wav');
         this.gameOverSound = new Audio('assets/audio/gameOver.wav');
 
@@ -40,18 +41,21 @@ class MemoryCards {
 
         $(document).on("click", ".card:not(.flip)" , (event) => this.flipCard(event));
 
-        $( "#start-overlay" ).click(function() {
-            $(this).removeClass('visible');
+        $( "#start-overlay" ).click((event) => {
+            $(event.currentTarget).removeClass('visible');
+            this.bgMusic.play();
         });
 
         $( "#game-over-overlay" ).click((event) => {
             this.loadLevel();
+            this.bgMusic.play();
             $(event.currentTarget).removeClass('visible');
         });
 
         $( "#victory-overlay" ).click((event) => {
             this.level++;
             this.loadLevel();
+            this.bgMusic.play();
             $(event.currentTarget).removeClass('visible');
         });
 
@@ -69,7 +73,6 @@ class MemoryCards {
         $(".card").remove();      
         this.addCards(cards);
 
-        this.bgMusic.play();
     }
 
     loadJSON(callback, file) {   
@@ -169,6 +172,7 @@ class MemoryCards {
 
         if (this.currentLives === 0) {
             this.gameOver();
+            return;
         }
         
         setTimeout(() => {
@@ -186,7 +190,7 @@ class MemoryCards {
             setTimeout(() => {
                 $('#victory-overlay').addClass('visible');
                 this.stopBgMusic();
-                this.victorySound.play();
+                this.gameVictorySound.play();
             }, 1500);        
         }
         this.resetDeck();
@@ -202,7 +206,7 @@ class MemoryCards {
         this.stopBgMusic();
         this.gameOverSound.play();
         this.level = 1;
-        resetDeck();
+        this.resetDeck();
     }
 
     calcLivesPercentage (current, total) {

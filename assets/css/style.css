@@ -61,10 +61,7 @@ canvas {
 }
 
 #game-container {
-    display: grid;
     max-width: 600px;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 1rem;
     margin: 0 auto;
     justify-content: center;
 }
@@ -86,6 +83,12 @@ canvas {
 .game-info {
     font-size: 2em;
     text-align: center;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1rem;
 }
 
 .card {
