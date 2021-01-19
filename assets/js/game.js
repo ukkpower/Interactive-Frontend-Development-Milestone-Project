@@ -17,7 +17,7 @@ class MemoryCards {
         this.cardSelection = [];
 
         this.bgMusic = new Audio('assets/audio/bgMusic.mp3');
-        this.bgMusic.volume = 0.6;
+        this.bgMusic.volume = 0.4;
         this.bgMusic.loop = true;
 
         this.flipCardSound = new Audio('assets/audio/card-flip.mp3');
@@ -70,7 +70,8 @@ class MemoryCards {
         this.trackMatches = this.gameData[this.level-1].cards;
 
         let cards = this.randomCardSelection(this.gameData[this.level-1].cards);
-        $(".card").remove();      
+        $(".card").remove();
+        this.setGridCol(this.gameData[this.level-1].cards);     
         this.addCards(cards);
 
     }
@@ -96,9 +97,24 @@ class MemoryCards {
         $('#level').html(level);
     }
 
+    setGridCol(cards) {
+        const numCards = cards * 2;
+        $('#card-container').removeClass();
+
+        if (numCards === 4 ) {
+            $('#card-container').addClass("card-grid-2");
+        } else if (numCards === 6 ) {
+            $('#card-container').addClass("card-grid-3");
+        } else if (numCards === 8) {
+            $('#card-container').addClass("card-grid-4");
+        } else {
+            $('#card-container').addClass("card-grid-4");
+        }
+    }
+
     addCards(cards) {
         for (let i = 0; i < cards.length; ++i) {
-            $('#game-container').append(`<div class="card" data-framework="${this.cardData[cards[i]].name}">
+            $('#card-container').append(`<div class="card" data-framework="${this.cardData[cards[i]].name}">
                 <div class="card-front card-face"><img src="assets/svg/${this.cardData[cards[i]].image}"></div>
                 <div class="card-back card-face">?</div>
             </div>`)        
@@ -167,6 +183,8 @@ class MemoryCards {
 
         this.currentLives = this.currentLives -1;
         this.noMatchCardsSound.play();
+        $(this.firstCard).addClass("card-shake");
+        $(this.firstCard).addClass("card-shake");
         let calcLivesPercent = this.calcLivesPercentage (this.currentLives, this.levelLives)
         this.updateLives (this.currentLives, calcLivesPercent);
 
