@@ -175,16 +175,16 @@ class MemoryCards {
         
         let isMatch = this.firstCard.dataset.framework === this.secondCard.dataset.framework;
 
-        isMatch ? this.cardsMatched() : this.noMatch();
+        isMatch ? this.cardsMatched() : this.noCardsMatch();
     }
 
-    noMatch() {
+    noCardsMatch() {
         this.lockDeck = true;
 
         this.currentLives = this.currentLives -1;
+
         this.noMatchCardsSound.play();
-        $(this.firstCard).addClass("card-shake");
-        $(this.firstCard).addClass("card-shake");
+
         let calcLivesPercent = this.calcLivesPercentage (this.currentLives, this.levelLives)
         this.updateLives (this.currentLives, calcLivesPercent);
 
@@ -194,16 +194,26 @@ class MemoryCards {
         }
         
         setTimeout(() => {
-            this.firstCard.classList.remove('flip');
-            this.secondCard.classList.remove('flip');
+            $(this.firstCard).addClass("card-shake");
+            $(this.secondCard).addClass("card-shake");
+        }, 500);
 
+        setTimeout(() => {
+            $(this.firstCard).removeClass("flip card-shake");
+            $(this.secondCard).removeClass("flip card-shake");
             this.resetDeck();
         }, 1500);
     }
 
     cardsMatched() {
         this.trackMatches = this.trackMatches - 1;
+        
         this.matchCardsSound.play();
+
+
+        $(this.firstCard).addClass("card-heartbeat");
+        $(this.secondCard).addClass("card-heartbeat");
+
         if (this.trackMatches == 0) {
             setTimeout(() => {
                 $('#victory-overlay').addClass('visible');
@@ -211,7 +221,7 @@ class MemoryCards {
                 this.gameVictorySound.play();
             }, 1500);        
         }
-        this.resetDeck();
+        //this.resetDeck();
     }
 
     resetDeck() {
