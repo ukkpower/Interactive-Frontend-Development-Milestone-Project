@@ -60,13 +60,15 @@ class MemoryCards {
             $(event.currentTarget).removeClass('visible');
         });
 
-        $( ".mute" ).click(() => {
+        $( ".mute-button" ).click((event) => {
             if(this.bgMusicMute) {
                 this.bgMusic.play();
                 this.bgMusicMute = false;
+                $(event.currentTarget).removeClass('mute').addClass('unmute');
             } else {
                 this.stopBgMusic();
                 this.bgMusicMute = true;
+                $(event.currentTarget).removeClass('unmute').addClass('mute');
             }
         });
 
