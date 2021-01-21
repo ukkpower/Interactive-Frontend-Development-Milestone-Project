@@ -19,6 +19,7 @@ class MemoryCards {
         this.bgMusic = new Audio('assets/audio/bgMusic.mp3');
         this.bgMusic.volume = 0.4;
         this.bgMusic.loop = true;
+        this.bgMusicMute = false;
 
         this.flipCardSound = new Audio('assets/audio/card-flip.mp3');
         this.matchCardsSound = new Audio('assets/audio/card-match.wav');
@@ -57,6 +58,16 @@ class MemoryCards {
             this.loadLevel();
             this.bgMusic.play();
             $(event.currentTarget).removeClass('visible');
+        });
+
+        $( ".mute" ).click(() => {
+            if(this.bgMusicMute) {
+                this.bgMusic.play();
+                this.bgMusicMute = false;
+            } else {
+                this.stopBgMusic();
+                this.bgMusicMute = true;
+            }
         });
 
     }

@@ -85,6 +85,12 @@ canvas {
     text-align: center;
 }
 
+.mute {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 #card-container {
     display: grid;
     grid-gap: 1rem;
