@@ -44,31 +44,27 @@ class MemoryCards {
 
         $( "#start-overlay" ).click((event) => {
             $(event.currentTarget).removeClass('visible');
-            this.bgMusic.play();
+            if(!this.bgMusicMute) {this.playBgMusic()};
         });
 
         $( "#game-over-overlay" ).click((event) => {
             this.loadLevel();
-            this.bgMusic.play();
+            if(!this.bgMusicMute) {this.playBgMusic()};
             $(event.currentTarget).removeClass('visible');
         });
 
         $( "#victory-overlay" ).click((event) => {
             this.level++;
             this.loadLevel();
-            this.bgMusic.play();
+            if(!this.bgMusicMute) {this.playBgMusic()};
             $(event.currentTarget).removeClass('visible');
         });
 
         $( ".mute-button" ).click((event) => {
             if(this.bgMusicMute) {
-                this.bgMusic.play();
-                this.bgMusicMute = false;
-                $(event.currentTarget).removeClass('mute').addClass('unmute');
+                this.playBgMusic();
             } else {
                 this.stopBgMusic();
-                this.bgMusicMute = true;
-                $(event.currentTarget).removeClass('unmute').addClass('mute');
             }
         });
 
@@ -254,8 +250,16 @@ class MemoryCards {
         return (Math.floor((current/total) * 100));
     }
 
+    playBgMusic() {
+        this.bgMusic.play();
+        this.bgMusicMute = false;
+        $('mute').removeClass('unmute').addClass('mute');
+    }
+
     stopBgMusic() {
         this.bgMusic.pause();
         this.bgMusic.currentTime = 0;
+        this.bgMusicMute = true;
+        $('mute').removeClass('unmute').addClass('mute');
     }
 };
