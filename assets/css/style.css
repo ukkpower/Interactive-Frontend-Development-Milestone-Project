@@ -219,8 +219,8 @@ canvas {
             transform: translateX(-8px) rotateY(180deg);
   }
   100% {
-    -webkit-transform: translateX(-8px);
-            transform: translateX(-8px);
+    -webkit-transform: translateX(-8px) rotateY(180deg);
+            transform: translateX(-8px) rotateY(180deg);
   }   
 }
 @keyframes card-shake {
@@ -250,8 +250,8 @@ canvas {
             transform: translateX(-8px) rotateY(180deg);
   }
   100% {
-    -webkit-transform: translateX(-8px);
-            transform: translateX(-8px);
+    -webkit-transform: translateX(-8px) rotateY(180deg);
+            transform: translateX(-8px) rotateY(180deg);
   }  
 }
 
