@@ -159,7 +159,7 @@ class MemoryCards {
         $(event.currentTarget).addClass('flip');
         this.flipCardSound.play();
 
-        if (this === this.firstCard) return;
+        if (event.currentTarget === this.firstCard) return;
         if (!this.hasFlippedCard) {
             this.hasFlippedCard = true;
             this.firstCard = event.currentTarget;
@@ -221,7 +221,7 @@ class MemoryCards {
                 this.gameVictorySound.play();
             }, 1500);        
         }
-        //this.resetDeck();
+        this.resetDeck();
     }
 
     resetDeck() {

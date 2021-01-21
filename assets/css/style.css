@@ -193,60 +193,66 @@ canvas {
  * ----------------------------------------
  */
 @-webkit-keyframes card-shake {
-  0%,
-  100% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
+  0% {
+    -webkit-transform: translateX(0) rotateY(180deg);
+            transform: translateX(0) rotateY(180deg);
   }
   10%,
   30%,
   50%,
   70% {
-    -webkit-transform: translateX(-10px);
-            transform: translateX(-10px);
+    -webkit-transform: translateX(-10px) rotateY(180deg);
+            transform: translateX(-10px) rotateY(180deg);
   }
   20%,
   40%,
   60% {
-    -webkit-transform: translateX(10px);
-            transform: translateX(10px);
+    -webkit-transform: translateX(10px) rotateY(180deg);
+            transform: translateX(10px) rotateY(180deg);
   }
   80% {
-    -webkit-transform: translateX(8px);
-            transform: translateX(8px);
+    -webkit-transform: translateX(8px) rotateY(180deg);
+            transform: translateX(8px) rotateY(180deg);
   }
   90% {
+    -webkit-transform: translateX(-8px) rotateY(180deg);
+            transform: translateX(-8px) rotateY(180deg);
+  }
+  100% {
     -webkit-transform: translateX(-8px);
             transform: translateX(-8px);
-  }
+  }   
 }
 @keyframes card-shake {
-  0%,
-  100% {
-    -webkit-transform: translateX(0);
-            transform: translateX(0);
+  0% {
+    -webkit-transform: translateX(0) rotateY(180deg);
+            transform: translateX(0) rotateY(180deg);
   }
   10%,
   30%,
   50%,
   70% {
-    -webkit-transform: translateX(-10px);
-            transform: translateX(-10px);
+    -webkit-transform: translateX(-10px) rotateY(180deg);
+            transform: translateX(-10px) rotateY(180deg);
   }
   20%,
   40%,
   60% {
-    -webkit-transform: translateX(10px);
-            transform: translateX(10px);
+    -webkit-transform: translateX(10px) rotateY(180deg);
+            transform: translateX(10px) rotateY(180deg);
   }
   80% {
-    -webkit-transform: translateX(8px);
-            transform: translateX(8px);
+    -webkit-transform: translateX(8px) rotateY(180deg);
+            transform: translateX(8px) rotateY(180deg);
   }
   90% {
+    -webkit-transform: translateX(-8px) rotateY(180deg);
+            transform: translateX(-8px) rotateY(180deg);
+  }
+  100% {
     -webkit-transform: translateX(-8px);
             transform: translateX(-8px);
-  }
+  }  
 }
 
 /**
