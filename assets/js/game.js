@@ -207,6 +207,12 @@ class MemoryCards {
             $(this.secondCard).removeClass("flip");
             this.resetDeck();
         }, 1500);
+
+        setTimeout(() => {
+            $(this.firstCard).addClass("card-shake");
+            $(this.secondCard).addClass("card-shake");
+            this.resetDeck();
+        }, 2200);
     }
 
     cardsMatched() {
