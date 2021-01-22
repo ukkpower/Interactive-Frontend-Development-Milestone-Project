@@ -201,17 +201,12 @@ class MemoryCards {
             this.gameOver();
             return;
         }
-        
-        setTimeout(() => {
-            $(this.firstCard).addClass("card-shake");
-            $(this.secondCard).addClass("card-shake");
-        }, 500);
 
         setTimeout(() => {
-            $(this.firstCard).removeClass("flip card-shake");
-            $(this.secondCard).removeClass("flip card-shake");
+            $(this.firstCard).removeClass("flip");
+            $(this.secondCard).removeClass("flip");
             this.resetDeck();
-        }, 2000);
+        }, 1500);
     }
 
     cardsMatched() {
