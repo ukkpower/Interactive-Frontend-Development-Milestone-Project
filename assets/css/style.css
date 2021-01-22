@@ -149,7 +149,7 @@ canvas {
     border-radius: 5px;
 }
 
-.card.flip {
+.flip {
   transform: rotateY(180deg);
 }
 

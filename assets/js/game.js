@@ -63,8 +63,12 @@ class MemoryCards {
         $( ".mute-button" ).click((event) => {
             if(this.bgMusicMute) {
                 this.playBgMusic();
+                this.bgMusicMute = false;
+                $('mute').removeClass('unmute').addClass('mute');
             } else {
                 this.stopBgMusic();
+                this.bgMusicMute = true;
+                $('mute').removeClass('unmute').addClass('mute');
             }
         });
 
@@ -205,14 +209,18 @@ class MemoryCards {
         setTimeout(() => {
             $(this.firstCard).removeClass("flip");
             $(this.secondCard).removeClass("flip");
-            this.resetDeck();
         }, 1500);
 
         setTimeout(() => {
             $(this.firstCard).addClass("card-shake");
             $(this.secondCard).addClass("card-shake");
-            this.resetDeck();
         }, 2200);
+
+        setTimeout(() => {
+            $(this.firstCard).removeClass("card-shake");
+            $(this.secondCard).removeClass("card-shake");
+            this.resetDeck();
+        }, 3000);
     }
 
     cardsMatched() {
@@ -253,14 +261,10 @@ class MemoryCards {
 
     playBgMusic() {
         this.bgMusic.play();
-        this.bgMusicMute = false;
-        $('mute').removeClass('unmute').addClass('mute');
     }
 
     stopBgMusic() {
         this.bgMusic.pause();
         this.bgMusic.currentTime = 0;
-        this.bgMusicMute = true;
-        $('mute').removeClass('unmute').addClass('mute');
     }
 };
