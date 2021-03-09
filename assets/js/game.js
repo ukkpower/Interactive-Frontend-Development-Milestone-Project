@@ -30,6 +30,8 @@ class MemoryCards {
     }
 
     startGame () {
+
+        
         this.loadJSON((response) => {
             this.gameData = JSON.parse(response);}, 
             'gameData.json');
@@ -70,6 +72,10 @@ class MemoryCards {
                 this.bgMusicMute = true;
                 $('mute').removeClass('unmute').addClass('mute');
             }
+        });
+
+        $( "#install-app" ).click((event) => {
+
         });
 
     }
