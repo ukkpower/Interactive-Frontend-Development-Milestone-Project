@@ -42,6 +42,8 @@ workbox.precaching.precacheAndRoute([
     {"revision":"d6abea4c2f4309990b5a9b6838075af1","url":"assets/css/style.css"},
     {"revision":"e8b8c4881d0242829413da86978d5515","url":"assets/data/cardData.json"},
     {"revision":"3f1217adbe8fa294a8053b4d50289ed3","url":"assets/data/gameData.json"},
+    {"revision":"74cc4933a7adfa4639c30496aa649fe3","url":"assets/data/gameData.js"},
+    {"revision":"74cc4933a7adfa4639c30496aa649fe3","url":"assets/data/cardData.js"},
     {"revision":"74cc4933a7adfa4639c30496aa649fe3","url":"assets/js/game.js"},
     {"revision":"12b69d0ae6c6f0c42942ae6da2896e84","url":"assets/js/jquery.min.js"},
     {"revision":"ed0266e1febbdd643f6622c932b8cf9d","url":"assets/js/js-fluid-meter.js"},
