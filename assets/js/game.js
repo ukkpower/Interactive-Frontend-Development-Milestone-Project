@@ -2,8 +2,8 @@ class MemoryCards {
     
     constructor() {
 
-        this.gameData = [];
-        this.cardData = [];
+        this.gameData = gameData;
+        this.cardData = cardData;
 
         this.currentLives = 0;
         this.levelLives = 0;
@@ -30,15 +30,6 @@ class MemoryCards {
     }
 
     startGame () {
-
-        
-        this.loadJSON((response) => {
-            this.gameData = JSON.parse(response);}, 
-            'gameData.json');
-
-        this.loadJSON((response) => {
-            this.cardData = JSON.parse(response);}, 
-            'cardData.json');
 
         this.loadLevel();
 
