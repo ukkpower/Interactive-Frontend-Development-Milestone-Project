@@ -14,6 +14,8 @@ class MemoryCards {
         this.firstCard, this.secondCard;
         this.trackMatches = 0;
 
+        this.overallScore = 0;
+
         this.cardSelection = [];
 
         this.bgMusic = new Audio('assets/audio/bgMusic.mp3');
@@ -83,7 +85,6 @@ class MemoryCards {
         $(".card").remove();
         this.setGridCol(this.gameData[this.level-1].cards);     
         this.addCards(cards);
-
     }
 
     loadJSON(callback, file) {   
@@ -225,16 +226,19 @@ class MemoryCards {
         
         this.matchCardsSound.play();
 
-
         $(this.firstCard).addClass("card-heartbeat");
         $(this.secondCard).addClass("card-heartbeat");
 
         if (this.trackMatches == 0) {
             setTimeout(() => {
+                let roundScore = this.calcRoundScore;
+                this.overallScore += roundScore;
+                $('#round-score').html(roundScore);
+                $('.overall-score').html(overallScore);
                 $('#victory-overlay').addClass('visible');
                 this.stopBgMusic();
                 this.gameVictorySound.play();
-            }, 1500);        
+            }, 1500);       
         }
         this.resetDeck();
     }
@@ -245,6 +249,7 @@ class MemoryCards {
     }
 
     gameOver () {
+        $('.overall-score').html(overallScore);
         $('#game-over-overlay').addClass('visible');
         this.stopBgMusic();
         this.gameOverSound.play();
@@ -254,6 +259,11 @@ class MemoryCards {
 
     calcLivesPercentage (current, total) {
         return (Math.floor((current/total) * 100));
+    }
+
+    calcRoundScore () {
+        let roundScore = (this.currentLives * this.gameData[this.level-1].cards) * 10;
+        return roundScore
     }
 
     playBgMusic() {
