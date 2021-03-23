@@ -35,7 +35,6 @@
         <div class="game-title">
             <img class="logo" src="assets/svg/Code_logo_grey_fit.svg">
             <h1>Memory Game</h1>
-            <button id="install-app">Install App</button>
         </div>
         <div id="game-info-container">
             <div class="game-info">
@@ -92,13 +91,13 @@
     game.startGame();
 </script>
 <script>
-// Check that service workers are supported
-if ('serviceWorker' in navigator) {
-  // Use the window load event to keep the page load performant
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js');
-  });
-}
+    // Check that service workers are supported
+    if ('serviceWorker' in navigator) {
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+    });
+    }
 </script>
 </body>
 </html>

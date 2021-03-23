@@ -2,16 +2,16 @@ class MemoryCards {
     
     constructor() {
 
-        this.gameData = gameData;
-        this.cardData = cardData;
+        this.gameData = gameData; //load from gameData.js
+        this.cardData = cardData; //load from cardData.js
 
         this.currentLives = 0;
         this.levelLives = 0;
         this.level = 1;
 
         this.hasFlippedCard = false;
-        this.lockDeck = false;
-        this.firstCard, this.secondCard;
+        this.preventFlip = false;
+        this.firstFlip, this.secondFlip;
         this.trackMatches = 0;
 
         this.overallScore = 0;
@@ -59,16 +59,12 @@ class MemoryCards {
             if(this.bgMusicMute) {
                 this.playBgMusic();
                 this.bgMusicMute = false;
-                $('mute').removeClass('unmute').addClass('mute');
+                $(event.currentTarget).removeClass('mute').addClass('unmute');
             } else {
                 this.stopBgMusic();
                 this.bgMusicMute = true;
-                $('mute').removeClass('unmute').addClass('mute');
+                $(event.currentTarget).removeClass('unmute').addClass('mute');
             }
-        });
-
-        $( "#install-app" ).click((event) => {
-
         });
 
     }
@@ -85,19 +81,6 @@ class MemoryCards {
         $(".card").remove();
         this.setGridCol(this.gameData[this.level-1].cards);     
         this.addCards(cards);
-    }
-
-    loadJSON(callback, file) {   
-
-        var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
-        xobj.open('GET', `assets/data/${file}`, false);
-        xobj.onreadystatechange = function () {
-            if (xobj.readyState == 4 && xobj.status == "200") {
-                callback(xobj.responseText);
-            }
-        };
-        xobj.send(null);  
     }
 
     updateLives (lives, livesPercent) {
@@ -125,7 +108,7 @@ class MemoryCards {
 
     addCards(cards) {
         for (let i = 0; i < cards.length; ++i) {
-            $('#card-container').append(`<div class="card" data-framework="${this.cardData[cards[i]].name}">
+            $('#card-container').append(`<div class="card" id="${this.cardData[cards[i]].name}">
                 <div class="card-front card-face"><img src="assets/svg/${this.cardData[cards[i]].image}"></div>
                 <div class="card-back card-face">?</div>
             </div>`)        
@@ -165,32 +148,35 @@ class MemoryCards {
 
     flipCard (event) {
 
-        if (this.lockDeck) return;
+        if (this.preventFlip) return;
         
         $(event.currentTarget).addClass('flip');
         this.flipCardSound.play();
 
-        if (event.currentTarget === this.firstCard) return;
+        if (event.currentTarget === this.firstFlip) return;
         if (!this.hasFlippedCard) {
             this.hasFlippedCard = true;
-            this.firstCard = event.currentTarget;
+            this.firstFlip = event.currentTarget;
 
             return;
         } 
         
-        this.secondCard = event.currentTarget;
-        this.checkForMatch();
+        this.secondFlip = event.currentTarget;
+        this.checkMatching();
     }
 
-    checkForMatch() {
-        
-        let isMatch = this.firstCard.dataset.framework === this.secondCard.dataset.framework;
+    checkMatching() {
+        let checkMatch = this.firstFlip.id === this.secondFlip.id;
 
-        isMatch ? this.cardsMatched() : this.noCardsMatch();
+        if(checkMatch) {
+            this.cardsMatched();
+        } else {
+            this.noCardsMatch();
+        }
     }
 
     noCardsMatch() {
-        this.lockDeck = true;
+        this.preventFlip = true;
 
         this.currentLives = this.currentLives -1;
 
@@ -205,18 +191,18 @@ class MemoryCards {
         }
 
         setTimeout(() => {
-            $(this.firstCard).removeClass("flip");
-            $(this.secondCard).removeClass("flip");
+            $(this.firstFlip).removeClass("flip");
+            $(this.secondFlip).removeClass("flip");
         }, 1500);
 
         setTimeout(() => {
-            $(this.firstCard).addClass("card-shake");
-            $(this.secondCard).addClass("card-shake");
+            $(this.firstFlip).addClass("card-shake");
+            $(this.secondFlip).addClass("card-shake");
         }, 2200);
 
         setTimeout(() => {
-            $(this.firstCard).removeClass("card-shake");
-            $(this.secondCard).removeClass("card-shake");
+            $(this.firstFlip).removeClass("card-shake");
+            $(this.secondFlip).removeClass("card-shake");
             this.resetDeck();
         }, 3000);
     }
@@ -226,15 +212,15 @@ class MemoryCards {
         
         this.matchCardsSound.play();
 
-        $(this.firstCard).addClass("card-heartbeat");
-        $(this.secondCard).addClass("card-heartbeat");
+        $(this.firstFlip).addClass("card-heartbeat");
+        $(this.secondFlip).addClass("card-heartbeat");
 
         if (this.trackMatches == 0) {
             setTimeout(() => {
-                let roundScore = this.calcRoundScore;
+                let roundScore = this.calcRoundScore();
                 this.overallScore += roundScore;
                 $('#round-score').html(roundScore);
-                $('.overall-score').html(overallScore);
+                $('.overall-score').html(this.overallScore);
                 $('#victory-overlay').addClass('visible');
                 this.stopBgMusic();
                 this.gameVictorySound.play();
@@ -244,16 +230,17 @@ class MemoryCards {
     }
 
     resetDeck() {
-        [this.hasFlippedCard, this.lockDeck] = [false, false];
-        [this.firstCard, this.secondCard] = [null, null];
+        this.firstFlip = this.secondFlip = null;
+        this.hasFlippedCard = this.preventFlip = false;
     }
 
     gameOver () {
-        $('.overall-score').html(overallScore);
+        $('.overall-score').html(this.overallScore);
         $('#game-over-overlay').addClass('visible');
         this.stopBgMusic();
         this.gameOverSound.play();
         this.level = 1;
+        this.overallScore = 0;
         this.resetDeck();
     }
 
